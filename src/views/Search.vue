@@ -1,5 +1,6 @@
 <template>
   <div class="Sunrise-Sunset">
+    <div class="form-container" v-show="showForm">
     <h1>Sunrise-Sunset</h1>
    
   
@@ -9,7 +10,7 @@
     
       </form>
 
-      
+      <spinner v-if = "showSpinner"></spinner>
     <ul v-if="results > 0" class="results">
       
      <li v-for="(city) in results" :key="city">
@@ -18,58 +19,66 @@
       </li>
     </ul>
 
-   
+    </div>
   </div>
 </template>
 
 <script>
  import axios from "axios";
+ import Cubespinner from '@/views/Cubespinner';
 
 export default {
   name: 'City',
+  components: {
+    spinner: Cubespinner
+  },
 
   data() {
     return {
        results: null,
       query: '',
-      showLoading: false,
-      messages: [],
-      favorites: []
-    }
+      showForm: true,
+      showError: false,
+      errors: null,
+      showSpinner: false
+    };
   },
-
    methods: {
  
     
     city: function () {
-      this.showLoading = true
-      let city="today"
-     console.log (city)
+      this.showSpinner = true
      
-      axios.get("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today", {
+     console.log ()
+     
+      axios.get("https://api.sunrise-sunset.org/json", {
         
         params: {
-         lat: '36.7201600',
-         lng: '-4.4203400'
+         lat: 36.7201600,
+         lng: -4.4203400
         }
         }
         )
  .then(response => {
-          this.showLoading = false;
+          this.showSpinner = false;
           this.results = response.data;
-          console.log (this.results.City[0]);
+         
        
         })
         .catch(error => {
-       this.errors.push(error);
+      this.showSpinner = false;
+        this.messages.push({
+          type: 'error',
+          text: error.message
+         
           });
          
-        }
+        })
+    }
       }
     };
   
  
-
 </script>
 <style scoped>
 .errors li {
@@ -80,7 +89,6 @@ export default {
 h1, h2 {
   font-weight: normal;
 }
-
 ul {
   list-style-type: none;
   padding: 0;
