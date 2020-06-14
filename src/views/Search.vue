@@ -11,13 +11,13 @@
 
        <load-spinner v-if="showLoading"></load-spinner>
     <ul class="cities" v-if="results && results.list.length > 0">
-     <li v-for="(city,index) in results.list" :key="index">
+     <li v-for="(city) in results.list" :key="city">
         <h2>{{ city.name }}, {{ city.sys.country }}</h2>
         
 
        
 
-        <p><button class="save" v-on:click="saveCity(city)">Save City to Favorites</button></p>
+        
       </li>
     </ul>
 
@@ -43,13 +43,13 @@ export default {
    methods: {
 
     
-    getCity: function () {
-      this.showSpinner = true
+    findCity: function () {
+      this.showLoading = true
  
      console.log ()
      
       
-     .get("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today", {
+     .get("https://api.sunrise-sunset.org/json", {
         
         params: {
          lat: '36.7201600&lng=-4.4203400'
@@ -58,8 +58,20 @@ export default {
         )
         .then(response => {
          
-          this.results = response.data;
-          this.showLoading = false;
+          "results";
+      {
+        "sunrise";"7:27:02 AM",
+        "sunset";"5:05:55 PM",
+        "solar_noon";"12:16:28 PM",
+        "day_length";"9:38:53",
+        "civil_twilight_begin";"6:58:14 AM",
+        "civil_twilight_end";"5:34:43 PM",
+        "nautical_twilight_begin";"6:25:47 AM",
+        "nautical_twilight_end";"6:07:10 PM",
+        "astronomical_twilight_begin";"5:54:14 AM",
+        "astronomical_twilight_end";"6:38:43 PM"
+      }
+       "status";"OK"
         })
         .catch(error => {
           this.messages.push({
