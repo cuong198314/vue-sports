@@ -4,20 +4,17 @@
    
   
 
-    <form v-on:submit.prevent="findCity">
-    <p>Enter city name: <input type="text" v-model="query" placeholder="Seattle, WA"> <button type="submit">Go</button></p>
+    <form v-on:submit.prevent="city">
+    <p>Enter city name: <input type="text" v-model="query" placeholder="Seattle, WA"> <button type="submit">Search</button></p>
     
       </form>
 
-       <load-spinner v-if="showLoading"></load-spinner>
-    <ul class="cities" v-if="results && results.list.length > 0">
-     <li v-for="(city) in results.list" :key="city">
+      
+    <ul v-if="results > 0" class="results">
+      
+     <li v-for="(city) in results" :key="city">
         <h2>{{ city.name }}, {{ city.sys.country }}</h2>
-        
-
-       
-
-        
+      
       </li>
     </ul>
 
@@ -44,12 +41,12 @@ export default {
    methods: {
  
     
-    findCity: function () {
+    city: function () {
       this.showLoading = true
- 
-     console.log ()
+      let city="today"
+     console.log (city)
      
-      axios.get("https://api.sunrise-sunset.org/json", {
+      axios.get("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today", {
         
         params: {
          lat: '36.7201600',
@@ -60,7 +57,7 @@ export default {
  .then(response => {
           this.showLoading = false;
           this.results = response.data;
-          console.log (this.results.findCity[0]);
+          console.log (this.results.City[0]);
        
         })
         .catch(error => {
@@ -69,7 +66,7 @@ export default {
          
         }
       }
-    }
+    };
   
  
 
