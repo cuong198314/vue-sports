@@ -26,13 +26,11 @@
 <script>
  import axios from "axios";
  import Cubespinner from '@/views/Cubespinner';
-
 export default {
   name: 'City',
   components: {
     spinner: Cubespinner
   },
-
   data() {
     return {
        results: null,
@@ -47,6 +45,8 @@ export default {
  
     
     city: function () {
+      this.results = null;
+      this.showLoading = true;
       this.showSpinner = true
      
      console.log ()
@@ -62,6 +62,7 @@ export default {
  .then(response => {
           this.showSpinner = false;
           this.results = response.data;
+           console.log (this.results.city);
          
        
         })
